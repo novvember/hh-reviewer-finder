@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# 🕵️ Reviewer Finder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Поиск пользователя Github для ревью.
 
-## Available Scripts
+Домашнее задание для "Школы программистов HeadHunter" (React/Redux).
 
-In the project directory, you can run:
+## Демо
 
-### `npm start`
+[`novvember.github.io/hh-reviewer-finder`](https://novvember.github.io/hh-reviewer-finder)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Стек
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Create React App
+- React
+- Redux
+- Ant Design
 
-### `npm test`
+## Задание
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Нужно сделать одностраничное приложение, которое помогает найти ревьюера.
 
-### `npm run build`
+### Функционал:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- кнопка настроек, по клику на нее можно переключать видимость настроек.
+  в настройках 3 поля:
+  - `login` для ввода логина текущего юзера
+  - `repo` для указания репозитория для которого ищем ревьюера
+  - `blacklist` для указания списка login-ов, кто не должен быть ревьюером
+    состояние настроек сохранять в localStorage
+- для генерации ревьюера нужна кнопка поиска ревьюера, по клику на которую должен быть выбран рандомный ревьюер из списка контрибьютеров репозитория указанный в пункте 2 настроек, учитывая `blacklist` пункта 3.
+- при генерации ревьюера показываем текущего пользователя и перебираемые вами пользователи для ревью(выводим имя и аватар).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Дока по API: https://docs.github.com/en/rest.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Дополнительно
 
-### `npm run eject`
+Макетов нет, можно делать на ваш вкус и цвет, включайте фантазию) Оцениваться будет реализация, а не визуальная часть.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+При написании используем только функциональные компоненты, класс компоненты запрещены. Код пишем на TS. На реализацию 3 недели, до 15 февраля.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Для создания проекта используем create-react-app
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Предвкушая вопросы о том, как создать окружение и билд конфиги с тс вот ссылка https://create-react-app.dev/docs/adding-typescript/
