@@ -9,22 +9,28 @@ import { useAppDispatch, useAppSelector } from '../store';
 import {
   blacklistSet,
   fetchContributors,
+  selectBlacklist,
   selectContributors,
   selectHasError,
   selectIsLoading,
-} from '../store/appSlice';
+  selectLogin,
+  selectRepo,
+} from '../store/dataSlice';
 
 const { Panel } = Collapse;
 
 function Settings() {
   const dispatch = useAppDispatch();
 
-  const [login, setLogin] = useState<string>('');
-  const [repo, setRepo] = useState<string>('');
-
+  const savedLogin = useAppSelector(selectLogin);
+  const savedRepo = useAppSelector(selectRepo);
+  const contributors = useAppSelector(selectContributors);
   const isLoading = useAppSelector(selectIsLoading);
   const hasError = useAppSelector(selectHasError);
-  const contributors = useAppSelector(selectContributors);
+  const blacklist = useAppSelector(selectBlacklist);
+
+  const [login, setLogin] = useState<string>(savedLogin);
+  const [repo, setRepo] = useState<string>(savedRepo);
 
   const contributorsOptions = useMemo(
     () =>
@@ -99,6 +105,7 @@ function Settings() {
               placeholder="Add users to blacklist"
               onChange={handleListChange}
               options={contributorsOptions}
+              defaultValue={blacklist}
             />
           )}
         </Space>

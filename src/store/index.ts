@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import appReducer from './appSlice';
+import dataReducer from './dataSlice';
 
 export const store = configureStore({
   reducer: {
-    app: appReducer,
+    data: dataReducer,
   },
+});
+
+store.subscribe(() => {
+  localStorage.setItem('appState', JSON.stringify(store.getState()));
 });
 
 export type ApplicationState = ReturnType<typeof store.getState>;
