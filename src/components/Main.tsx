@@ -8,7 +8,7 @@ type MainType = {
 function Main({ children }: MainType) {
   return (
     <Content>
-      <Space className="main" direction="vertical" align="center">
+      <Space className="main" direction="vertical" align="center" size='large'>
         {children}
       </Space>
     </Content>

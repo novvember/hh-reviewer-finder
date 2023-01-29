@@ -1,9 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { ApplicationState } from '.';
 
 type User = {
   login: string;
   avatar_url: string;
+  html_url: string;
 };
 
 type SettingsData = {
@@ -72,12 +77,14 @@ const settingsSlice = createSlice({
         state.contributors = [];
       })
       .addCase(fetchContributors.fulfilled, (state, action) => {
+        const { login, repo, contributors } = action.payload;
+
         state.isLoading = false;
         state.hasError = false;
-        state.login = action.payload.login;
-        state.repo = action.payload.repo;
-        state.contributors = action.payload.contributors;
-        state.blacklist = [];
+        state.login = login;
+        state.repo = repo;
+        state.contributors = contributors;
+        state.blacklist = [login];
       });
   },
 });
@@ -97,6 +104,11 @@ export const selectRepo = (state: ApplicationState) => state.data.repo;
 
 export const selectContributors = (state: ApplicationState) =>
   state.data.contributors;
+
+export const selectContributorByLogin = (login: string) =>
+  createSelector([selectContributors], (contributors) =>
+    contributors.find((user) => user.login === login),
+  );
 
 export const selectBlacklist = (state: ApplicationState) =>
   state.data.blacklist;

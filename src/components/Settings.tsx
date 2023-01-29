@@ -1,4 +1,4 @@
-import { Button, Collapse, Input, Select, Space, Tooltip } from 'antd';
+import { Avatar, Button, Collapse, Input, Select, Space, Tooltip } from 'antd';
 import {
   UserOutlined,
   InfoCircleOutlined,
@@ -98,15 +98,22 @@ function Settings() {
           </Button>
 
           {hasList && (
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%' }}
-              placeholder="Add users to blacklist"
-              onChange={handleListChange}
-              options={contributorsOptions}
-              defaultValue={blacklist}
-            />
+            <>
+              <Avatar.Group maxCount={10} size="small">
+                {contributors.map((user) => (
+                  <Avatar src={user.avatar_url} />
+                ))}
+              </Avatar.Group>
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ width: '100%' }}
+                placeholder="Add users to blacklist"
+                onChange={handleListChange}
+                options={contributorsOptions}
+                value={blacklist}
+              />
+            </>
           )}
         </Space>
       </Panel>
