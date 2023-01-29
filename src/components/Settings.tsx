@@ -101,7 +101,7 @@ function Settings() {
             <>
               <Avatar.Group maxCount={10} size="small">
                 {contributors.map((user) => (
-                  <Avatar src={user.avatar_url} />
+                  <Avatar src={user.avatar_url} key={user.login} />
                 ))}
               </Avatar.Group>
               <Select
