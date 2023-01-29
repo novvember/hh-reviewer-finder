@@ -7,7 +7,7 @@ import {
   selectLogin,
 } from '../store/dataSlice';
 import User from './User';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 function Result() {
   const contributors = useAppSelector(selectContributors);
@@ -22,10 +22,32 @@ function Result() {
     ? 'Find me a reviewer!'
     : 'Enter data in settings :(';
 
-  function handleClick() {
-    setIsLoading(true);
+  const getRandomLogin = useCallback((): string => {
+    const i = Math.floor(Math.random() * contributors.length);
+    const login = contributors[i].login;
+    if (blacklist.includes(login)) {
+      return getRandomLogin();
+    } else {
+      return login;
+    }
+  }, [blacklist, contributors]);
 
-    setChosenLogin(contributors[0].login);
+  useEffect(() => {
+    let intervalId: NodeJS.Timer;
+    if (isLoading) {
+      intervalId = setInterval(() => {
+        setChosenLogin(getRandomLogin());
+      }, 500);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [getRandomLogin, isLoading]);
+
+  async function handleClick() {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 5000);
   }
 
   return (
