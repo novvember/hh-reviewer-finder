@@ -4,8 +4,9 @@ import {
   createSlice,
 } from '@reduxjs/toolkit';
 import { ApplicationState } from '.';
+import getContributors from '../api/getContributors';
 
-type User = {
+export type User = {
   login: string;
   avatar_url: string;
   html_url: string;
@@ -28,8 +29,8 @@ const storedState = localStorage.getItem('appState')
   : null;
 
 const initialState: DataType = {
-  login: '',
-  repo: '',
+  login: 'facebook',
+  repo: 'react',
   isLoading: false,
   hasError: false,
   blacklist: [],
@@ -39,11 +40,7 @@ const initialState: DataType = {
 export const fetchContributors = createAsyncThunk(
   'settings/fetchContributors',
   async ({ login, repo }: SettingsData) => {
-    const res = await fetch(
-      `https://api.github.com/repos/${login}/${repo}/contributors`,
-    );
-    if (!res.ok) throw new Error();
-    const contributors = await res.json();
+    const contributors = await getContributors(login, repo);
 
     return {
       login,

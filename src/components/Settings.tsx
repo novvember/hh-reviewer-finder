@@ -112,6 +112,7 @@ function Settings() {
                 onChange={handleListChange}
                 options={contributorsOptions}
                 value={blacklist}
+                maxTagCount="responsive"
               />
             </>
           )}

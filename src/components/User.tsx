@@ -13,14 +13,11 @@ type UserType = {
 function User({ login }: UserType) {
   const user = useAppSelector(selectContributorByLogin(login));
 
-  console.log(login);
-  if (!user) return null;
-
   return (
-    <Button type="dashed" href={user.html_url}>
+    <Button type="dashed" href={user?.html_url ?? ''}>
       <Space>
-        <Avatar size="small" icon={<UserOutlined />} src={user.avatar_url} />
-        <Text>{user.login}</Text>
+        <Avatar size="small" icon={<UserOutlined />} src={user?.avatar_url} />
+        <Text>{login}</Text>
       </Space>
     </Button>
   );
