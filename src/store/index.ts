@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import settingsReducer from './settings';
+import reviewersReducer from './reviewers';
 
 export const store = configureStore({
   reducer: {
     settings: settingsReducer,
-    // reviewers: reviewersReducer,
+    reviewers: reviewersReducer,
   },
 });
 

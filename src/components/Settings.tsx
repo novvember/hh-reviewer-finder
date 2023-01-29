@@ -4,14 +4,15 @@ import {
   InfoCircleOutlined,
   LinkOutlined,
 } from '@ant-design/icons';
-import { ChangeEvent, useState } from 'react';
-import { SelectProps } from 'antd/es/select';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store';
 import {
+  blacklistSet,
   fetchContributors,
   selectHasError,
   selectIsLoading,
 } from '../store/settings';
+import { selectReviewers } from '../store/reviewers';
 
 const { Panel } = Collapse;
 
@@ -20,12 +21,22 @@ function Settings() {
 
   const [login, setLogin] = useState<string>('');
   const [repo, setRepo] = useState<string>('');
-  const [list, setList] = useState<SelectProps['options']>([]);
 
   const isLoading = useAppSelector(selectIsLoading);
   const hasError = useAppSelector(selectHasError);
+  const contributors = useAppSelector(selectReviewers);
 
-  const isReady = login && repo;
+  const contributorsOptions = useMemo(
+    () =>
+      contributors.map((user) => ({
+        label: user.login,
+        value: user.login,
+      })),
+    [contributors],
+  );
+
+  const isReadyToSave = login && repo;
+  const hasList = contributors.length > 0;
 
   function handleLoginChange(evt: ChangeEvent<HTMLInputElement>) {
     setLogin(evt.target.value);
@@ -39,7 +50,9 @@ function Settings() {
     dispatch(fetchContributors({ login, repo }));
   }
 
-  function handleListChange(value: string[]) {}
+  function handleListChange(values: string[]) {
+    dispatch(blacklistSet(values));
+  }
 
   return (
     <Collapse bordered={false} defaultActiveKey={['1']}>
@@ -71,22 +84,23 @@ function Settings() {
 
           <Button
             onClick={handleSaveClick}
-            disabled={!isReady}
+            disabled={!isReadyToSave}
             loading={isLoading}
             danger={hasError}
           >
             Save data
           </Button>
 
-          <Select
-            mode="multiple"
-            allowClear
-            style={{ width: '100%' }}
-            placeholder="Add users to blacklist"
-            onChange={handleListChange}
-            options={list}
-            disabled={!isReady}
-          />
+          {hasList && (
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder="Add users to blacklist"
+              onChange={handleListChange}
+              options={contributorsOptions}
+            />
+          )}
         </Space>
       </Panel>
     </Collapse>

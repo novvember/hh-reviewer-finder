@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ApplicationState } from '.';
+import { set } from './reviewers';
 
 type SettingsData = {
   login: string;
@@ -9,6 +10,7 @@ type SettingsData = {
 export type SettingsType = {
   isLoading: boolean;
   hasError: boolean;
+  blacklist: string[];
 } & SettingsData;
 
 const initialState: SettingsType = {
@@ -16,20 +18,23 @@ const initialState: SettingsType = {
   repo: '',
   isLoading: false,
   hasError: false,
+  blacklist: [],
 };
 
 export const fetchContributors = createAsyncThunk(
   'settings/fetchContributors',
-  async ({ login, repo }: SettingsData) => {
+  async ({ login, repo }: SettingsData, { dispatch }) => {
     const res = await fetch(
       `https://api.github.com/repos/${login}/${repo}/contributors`,
     );
     if (!res.ok) throw new Error();
     const contributors = await res.json();
+
+    dispatch(set(contributors));
+
     return {
       login,
       repo,
-      contributors,
     };
   },
 );
@@ -37,7 +42,11 @@ export const fetchContributors = createAsyncThunk(
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,
-  reducers: {},
+  reducers: {
+    blacklistSet(state, action) {
+      state.blacklist = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContributors.pending, (state) => {
@@ -58,6 +67,8 @@ const settingsSlice = createSlice({
 });
 
 export default settingsSlice.reducer;
+
+export const { blacklistSet } = settingsSlice.actions;
 
 export const selectIsLoading = (state: ApplicationState) =>
   state.settings.isLoading;
