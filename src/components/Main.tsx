@@ -1,3 +1,4 @@
+import { Space } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 
 type MainType = {
@@ -7,7 +8,9 @@ type MainType = {
 function Main({ children }: MainType) {
   return (
     <Content>
-      <div className="main">{children}</div>
+      <Space className="main" direction="vertical" align="center">
+        {children}
+      </Space>
     </Content>
   );
 }
