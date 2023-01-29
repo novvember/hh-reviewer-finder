@@ -12,8 +12,9 @@
 
 - Create React App
 - React
-- Redux
+- Redux Toolkit
 - Ant Design
+- GitHub API
 
 ## Задание
 
