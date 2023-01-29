@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/hh-reviewer-finder/static/css/main.d15fb302.css",
-    "main.js": "/hh-reviewer-finder/static/js/main.9cb59b45.js",
+    "main.js": "/hh-reviewer-finder/static/js/main.a6ef6ebc.js",
     "index.html": "/hh-reviewer-finder/index.html",
     "main.d15fb302.css.map": "/hh-reviewer-finder/static/css/main.d15fb302.css.map",
-    "main.9cb59b45.js.map": "/hh-reviewer-finder/static/js/main.9cb59b45.js.map"
+    "main.a6ef6ebc.js.map": "/hh-reviewer-finder/static/js/main.a6ef6ebc.js.map"
   },
   "entrypoints": [
     "static/css/main.d15fb302.css",
-    "static/js/main.9cb59b45.js"
+    "static/js/main.a6ef6ebc.js"
   ]
 }
