@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ApplicationState } from '.';
-import { set } from './reviewers';
+
+type User = {
+  login: string;
+  avatar_url: string;
+};
 
 type SettingsData = {
   login: string;
@@ -11,6 +15,7 @@ export type SettingsType = {
   isLoading: boolean;
   hasError: boolean;
   blacklist: string[];
+  contributors: User[];
 } & SettingsData;
 
 const initialState: SettingsType = {
@@ -19,6 +24,7 @@ const initialState: SettingsType = {
   isLoading: false,
   hasError: false,
   blacklist: [],
+  contributors: [],
 };
 
 export const fetchContributors = createAsyncThunk(
@@ -30,17 +36,16 @@ export const fetchContributors = createAsyncThunk(
     if (!res.ok) throw new Error();
     const contributors = await res.json();
 
-    dispatch(set(contributors));
-
     return {
       login,
       repo,
+      contributors,
     };
   },
 );
 
 const settingsSlice = createSlice({
-  name: 'settings',
+  name: 'app',
   initialState,
   reducers: {
     blacklistSet(state, action) {
@@ -52,16 +57,22 @@ const settingsSlice = createSlice({
       .addCase(fetchContributors.pending, (state) => {
         state.isLoading = true;
         state.hasError = false;
+        state.blacklist = [];
       })
       .addCase(fetchContributors.rejected, (state) => {
+        state.blacklist = [];
         state.isLoading = false;
+        state.login = '';
+        state.repo = '';
         state.hasError = true;
+        state.contributors = [];
       })
       .addCase(fetchContributors.fulfilled, (state, action) => {
         state.isLoading = false;
         state.hasError = false;
         state.login = action.payload.login;
         state.repo = action.payload.repo;
+        state.contributors = action.payload.contributors;
       });
   },
 });
@@ -70,12 +81,13 @@ export default settingsSlice.reducer;
 
 export const { blacklistSet } = settingsSlice.actions;
 
-export const selectIsLoading = (state: ApplicationState) =>
-  state.settings.isLoading;
+export const selectIsLoading = (state: ApplicationState) => state.app.isLoading;
 
-export const selectHasError = (state: ApplicationState) =>
-  state.settings.hasError;
+export const selectHasError = (state: ApplicationState) => state.app.hasError;
 
-export const selectLogin = (state: ApplicationState) => state.settings.login;
+export const selectLogin = (state: ApplicationState) => state.app.login;
 
-export const selectRepo = (state: ApplicationState) => state.settings.repo;
+export const selectRepo = (state: ApplicationState) => state.app.repo;
+
+export const selectContributors = (state: ApplicationState) =>
+  state.app.contributors;

@@ -9,10 +9,10 @@ import { useAppDispatch, useAppSelector } from '../store';
 import {
   blacklistSet,
   fetchContributors,
+  selectContributors,
   selectHasError,
   selectIsLoading,
-} from '../store/settings';
-import { selectReviewers } from '../store/reviewers';
+} from '../store/appSlice';
 
 const { Panel } = Collapse;
 
@@ -24,7 +24,7 @@ function Settings() {
 
   const isLoading = useAppSelector(selectIsLoading);
   const hasError = useAppSelector(selectHasError);
-  const contributors = useAppSelector(selectReviewers);
+  const contributors = useAppSelector(selectContributors);
 
   const contributorsOptions = useMemo(
     () =>
