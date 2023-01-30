@@ -16,6 +16,7 @@ import {
   selectLogin,
   selectRepo,
 } from '../store/dataSlice';
+import { MAX_USER_AVATARS_COUNT } from '../config';
 
 const { Panel } = Collapse;
 
@@ -99,7 +100,7 @@ function Settings() {
 
           {hasList && (
             <>
-              <Avatar.Group maxCount={10} size="small">
+              <Avatar.Group maxCount={MAX_USER_AVATARS_COUNT} size="small">
                 {contributors.map((user) => (
                   <Avatar src={user.avatar_url} key={user.login} />
                 ))}

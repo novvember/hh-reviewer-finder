@@ -1,3 +1,4 @@
+import { API_USERS_PER_PAGE_VALUE } from '../config';
 import { User } from '../store/dataSlice';
 
 export default async function getContributors(owner: string, repo: string) {
@@ -20,7 +21,7 @@ async function getContributorsByPage(
   page: number,
 ) {
   const res = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100&page=${page}`,
+    `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=${API_USERS_PER_PAGE_VALUE}&page=${page}`,
   );
   if (!res.ok) throw new Error();
   return await res.json();

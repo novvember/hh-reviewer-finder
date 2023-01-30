@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { ApplicationState } from '.';
 import getContributors from '../api/getContributors';
+import { DEFAULT_LOGIN, DEFAULT_REPO } from '../config';
 
 export type User = {
   login: string;
@@ -29,8 +30,8 @@ const storedState = localStorage.getItem('appState')
   : null;
 
 const initialState: DataType = {
-  login: 'facebook',
-  repo: 'react',
+  login: DEFAULT_LOGIN,
+  repo: DEFAULT_REPO,
   isLoading: false,
   hasError: false,
   blacklist: [],

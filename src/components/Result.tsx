@@ -8,6 +8,7 @@ import {
 } from '../store/dataSlice';
 import User from './User';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { SEARCH_TIME_PER_USER_MS, SEARCH_TOTAL_TIME_MS } from '../config';
 
 function Result() {
   const contributors = useAppSelector(selectContributors);
@@ -37,7 +38,7 @@ function Result() {
     if (isLoading) {
       intervalId = setInterval(() => {
         setChosenLogin(getRandomLogin());
-      }, 500);
+      }, SEARCH_TIME_PER_USER_MS);
     }
 
     return () => {
@@ -47,7 +48,7 @@ function Result() {
 
   function handleClick() {
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 5000);
+    setTimeout(() => setIsLoading(false), SEARCH_TOTAL_TIME_MS);
   }
 
   return (
