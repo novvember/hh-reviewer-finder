@@ -7,7 +7,7 @@ import {
   selectLogin,
 } from '../store/dataSlice';
 import User from './User';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 function Result() {
   const contributors = useAppSelector(selectContributors);
@@ -22,15 +22,15 @@ function Result() {
     ? 'Find me a reviewer!'
     : 'Enter data in settings :(';
 
-  const getRandomLogin = useCallback((): string => {
-    const i = Math.floor(Math.random() * contributors.length);
-    const login = contributors[i].login;
-    if (blacklist.includes(login)) {
-      return getRandomLogin();
-    } else {
-      return login;
-    }
+  const filteredList = useMemo(() => {
+    const set = new Set(blacklist);
+    return contributors.filter((user) => !set.has(user.login));
   }, [blacklist, contributors]);
+
+  const getRandomLogin = useCallback((): string => {
+    const i = Math.floor(Math.random() * filteredList.length);
+    return filteredList[i].login;
+  }, [filteredList]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timer;
