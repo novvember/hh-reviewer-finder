@@ -4,7 +4,7 @@ import {
   InfoCircleOutlined,
   LinkOutlined,
 } from '@ant-design/icons';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store';
 import {
   blacklistSet,
@@ -57,9 +57,10 @@ function Settings() {
     dispatch(fetchContributors({ login, repo }));
   }
 
-  function handleListChange(values: string[]) {
-    dispatch(blacklistSet(values));
-  }
+  const handleListChange = useCallback(
+    (values: string[]) => dispatch(blacklistSet(values)),
+    [dispatch]
+  )
 
   return (
     <Collapse bordered={false} defaultActiveKey={['1']}>
