@@ -45,7 +45,7 @@ function Result() {
     };
   }, [getRandomLogin, isLoading]);
 
-  async function handleClick() {
+  function handleClick() {
     setIsLoading(true);
     setTimeout(() => setIsLoading(false), 5000);
   }
