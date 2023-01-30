@@ -7,9 +7,9 @@ export default async function getContributors(owner: string, repo: string) {
 
   while (true) {
     const res = await getContributorsByPage(owner, repo, i);
-    if (!res || res.length === 0) break;
     contributors.push(...res);
     i++;
+    if (res.length < API_USERS_PER_PAGE_VALUE) break;
   }
 
   return contributors;
